@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Video Downloader</title>
+</head>
+<body>
+    <h1>TikTok Video Downloader</h1>
+    
+    {% if filename %}
+        <p>다운로드 완료! <a href="/download/{{ filename }}">여기를 클릭하여 파일을 다운로드하세요</a>.</p>
+    {% elif error %}
+        <p style="color: red;">에러 발생: {{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        <label for="url">TikTok URL:</label>
+        <input type="text" id="url" name="url" required>
+        <br><br>
+        <label for="filename">파일 이름:</label>
+        <input type="text" id="filename" name="filename" required>
+        <br><br>
+        <button type="submit">다운로드</button>
+    </form>
+</body>
+</html>
