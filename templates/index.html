@@ -3,25 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Video Downloader</title>
+    <title>TikTok Downloader</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>TikTok Video Downloader</h1>
-    
-    {% if filename %}
-        <p>다운로드 완료! <a href="/download/{{ filename }}">여기를 클릭하여 파일을 다운로드하세요</a>.</p>
-    {% elif error %}
-        <p style="color: red;">에러 발생: {{ error }}</p>
-    {% endif %}
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-semibold text-center mb-6">TikTok Downloader</h2>
 
-    <form method="POST">
-        <label for="url">TikTok URL:</label>
-        <input type="text" id="url" name="url" required>
-        <br><br>
-        <label for="filename">파일 이름:</label>
-        <input type="text" id="filename" name="filename" required>
-        <br><br>
-        <button type="submit">다운로드</button>
-    </form>
+        {% if filename %}
+        <p>다운로드 완료! <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full focus:outline-none focus:shadow-outline" href="/download/{{ filename }}">여기를 클릭하여 파일을 다운로드하세요</a>.</p>
+        {% elif error %}
+            <p style="color: red;">에러 발생: {{ error }}</p>
+        {% endif %}
+    
+        <form method="post" id="download-form">
+            <div class="mb-4">
+                <label for="tiktok-url" class="block text-gray-700 text-sm font-bold mb-2">TikTok URL</label>
+                <input type="url" id="tiktok-url" name="url" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter TikTok URL" required>
+            </div>
+            <div class="mb-4">
+                <label for="filename" class="block text-gray-700 text-sm font-bold mb-2">파일 이름</label>
+                <input type="text" name="filename" id="filename" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter file name" required>
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full focus:outline-none focus:shadow-outline">Download</button>
+        </form>
+    </div>
+
+    <!-- Tailwind CSS JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
 </body>
 </html>
