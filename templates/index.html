@@ -7,30 +7,38 @@
     <!-- Tailwind CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 class="text-2xl font-semibold text-center mb-6">TikTok Downloader</h2>
+<body class="bg-gray-100 flex flex-col items-center justify-start min-h-screen p-4 md:justify-center">
 
-        {% if filename %}
-        <p>다운로드 완료! <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full focus:outline-none focus:shadow-outline" href="/download/{{ filename }}">여기를 클릭하여 파일을 다운로드하세요</a>.</p>
-        {% elif error %}
-            <p style="color: red;">에러 발생: {{ error }}</p>
-        {% endif %}
+    <div class="m-4">
+        <img src="/static/tiktok-downloader-logo.png" alt="logo" class="w-40 h-40">    
+    </div>
     
-        <form method="post" id="download-form">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+        <form method="post" id="download-form" onsubmit="resetForm()">
             <div class="mb-4">
-                <label for="tiktok-url" class="block text-gray-700 text-sm font-bold mb-2">TikTok URL</label>
-                <input type="url" id="tiktok-url" name="url" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter TikTok URL" required>
+                <label for="tiktok_url" class="block text-gray-700 text-sm font-bold mb-2">TikTok URL</label>
+                <input type="url" id="tiktok_url" name="tiktok_url" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter TikTok URL" required>
             </div>
             <div class="mb-4">
                 <label for="filename" class="block text-gray-700 text-sm font-bold mb-2">파일 이름</label>
-                <input type="text" name="filename" id="filename" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter file name" required>
+                <input type="text" id="filename" name="filename" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter file name" required>
             </div>
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full focus:outline-none focus:shadow-outline">Download</button>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500">Download</button>
         </form>
     </div>
 
     <!-- Tailwind CSS JS (Optional) -->
     <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
+    <script>
+        function resetForm() {
+            // Wait for the form to submit and reset the form inputs
+            setTimeout(function() {
+                document.getElementById("tiktok_url").value = '';
+                document.getElementById("filename").value = '';
+            }, 100);
+
+            console.log('resetting...')
+        }
+    </script>
 </body>
 </html>

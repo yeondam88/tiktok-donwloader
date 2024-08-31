@@ -1,29 +1,54 @@
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory, redirect, url_for, flash, session
 import os
+import threading
+import time
 from download_tiktok import download_tiktok_video
 
 app = Flask(__name__)
-DOWNLOAD_FOLDER = 'static/downloads'
+app.config['UPLOAD_FOLDER'] = 'static/downloads'
+app.secret_key = 'supersecretkey'
+
+# Ensure the downloads directory exists
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+def delete_file_after_download(filename):
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f"File {filename} deleted after download.")
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        url = request.form['url']
+        tiktok_url = request.form['tiktok_url']
         filename = request.form['filename'] + '.mp4'
-        output_path = os.path.join(DOWNLOAD_FOLDER, filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
-        try:
-            download_tiktok_video(url, output_path)
-            return render_template('index.html', filename=filename)
-        except Exception as e:
-            return render_template('index.html', error=str(e))
+        download_tiktok_video(tiktok_url, filepath)
+        
+        session['filename'] = filename
 
+        flash(f"File downloaded as {filename}. It will be deleted after you download it.")
+        return redirect(url_for('download_file', filename=filename))
+
+    # Clear the filename after handling the POST request
+    session.pop('filename', None)
     return render_template('index.html')
 
-@app.route('/download/<filename>')
+@app.route('/downloads/<filename>')
 def download_file(filename):
-    return send_from_directory(DOWNLOAD_FOLDER, filename)
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    if os.path.exists(file_path):
+        # Send file for download
+        response = send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+        
+        # Delete the file after download
+        threading.Thread(target=delete_file_after_download, args=(filename,)).start()
+
+        return response
+    else:
+        flash("File does not exist or has already been deleted.")
+        return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(debug=True)
