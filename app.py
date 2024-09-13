@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, send_from_directory, redirect
 import os
 import threading
 import time
-from download_tiktok import download_tiktok_video
+from download_tiktok import download_tiktok_video, download_reel
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/downloads'
@@ -24,7 +24,10 @@ def index():
         filename = request.form['filename'] + '.mp4'
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
-        download_tiktok_video(tiktok_url, filepath)
+        if request.form['platform'] == 'instagram':
+            download_reel(tiktok_url, filepath)    
+        else:    
+            download_tiktok_video(tiktok_url, filepath)
         
         session['filename'] = filename
 

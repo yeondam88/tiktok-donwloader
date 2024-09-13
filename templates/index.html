@@ -15,6 +15,21 @@
     
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
         <form method="post" id="download-form" onsubmit="resetForm()">
+            <div>
+                <h2 class="text-lg font-semibold">Choose a platform:</h2>
+                <div class="flex align-center">
+                    <div class="flex pt-4 pb-4 mr-4">
+                        <input id="instagram" type="radio" name="platform" value="instagram" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                        <label for="instagram" class="ml-2 block text-sm font-medium text-gray-700">Instagram</label>
+                    </div>
+            
+                    <div class="flex items-center">
+                        <input id="tiktok" type="radio" name="platform" value="tiktok" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                        <label for="tiktok" class="ml-2 block text-sm font-medium text-gray-700">TikTok</label>
+                    </div>
+                </div>
+                
+            </div>
             <div class="mb-4">
                 <label for="tiktok_url" class="block text-gray-700 text-sm font-bold mb-2">TikTok URL</label>
                 <input type="url" id="tiktok_url" name="tiktok_url" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter TikTok URL" required>
