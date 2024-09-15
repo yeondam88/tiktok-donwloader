@@ -24,10 +24,12 @@ def index():
         filename = request.form['filename'] + '.mp4'
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
-        if request.form['platform'] == 'instagram':
-            download_reel(tiktok_url, filepath)    
-        else:    
-            download_tiktok_video(tiktok_url, filepath)
+        download_tiktok_video(tiktok_url, filepath)
+
+        # if request.form['platform'] == 'instagram':
+        #     download_reel(tiktok_url, filepath)    
+        # else:    
+        #     download_tiktok_video(tiktok_url, filepath)
         
         session['filename'] = filename
 
